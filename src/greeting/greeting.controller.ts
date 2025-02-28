@@ -1,21 +1,18 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Post,
   Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 
-import { AppService } from './greeting.service';
-import { AddMovieDto, UpdateGreetingDto } from './dto/greeting.dto';
-import { Movies } from '../Types/types';
+import { GreetingService } from './greeting.service';
+import { UpdateGreetingDto } from './dto/greeting.dto';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class GreetingController {
+  constructor(private readonly appService: GreetingService) {}
 
   @Get()
   getGreeting(): string {
@@ -23,8 +20,9 @@ export class AppController {
   }
 
   @Put('greeting')
+  @UsePipes(new ValidationPipe())
   updateGreeting(@Body() body: UpdateGreetingDto): string {
-    return this.appService.upDateGreeting(body.greeting);
+    return this.appService.updateGreeting(body.greeting);
   }
 
   @Get('time')

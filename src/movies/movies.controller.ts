@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 
 import { MovieService } from 'src/movies/movies.service';
-import { AddMovieDto, UpdateGreetingDto } from '../greeting/dto/greeting.dto';
-import { Movies } from '../Types/types';
+import { AddMovieDto } from './dto/movies.dto';
+import { Movies } from '../types/types';
 
 @Controller()
-export class AppController {
+export class MovieController {
   constructor(private readonly appService: MovieService) {}
 
   @Get('movies')

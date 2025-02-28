@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
-import { Movies } from './Types/types';
+import { Movies } from './types/types';
 
 @Injectable()
 export class AppService {

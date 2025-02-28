@@ -12,7 +12,7 @@ import {
 import { AppService } from './app.service';
 import { UpdateGreetingDto } from './greeting/dto/greeting.dto';
 import { AddMovieDto } from './movies/dto/movies.dto';
-import { Movies } from './Types/types';
+import { Movies } from './types/types';
 
 @Controller()
 export class AppController {
