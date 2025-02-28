@@ -10,7 +10,8 @@ import {
 } from '@nestjs/common';
 
 import { AppService } from './app.service';
-import { AddMovieDto, UpdateGreetingDto } from './DTOs/DTOs';
+import { UpdateGreetingDto } from './greeting/dto/greeting.dto';
+import { AddMovieDto } from './movies/dto/movies.dto';
 import { Movies } from './Types/types';
 
 @Controller()

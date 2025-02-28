@@ -8,8 +8,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { MovieService } from 'src/services/movies.service';
-import { AddMovieDto, UpdateGreetingDto } from '../DTOs/DTOs';
+import { MovieService } from 'src/movies/movies.service';
+import { AddMovieDto, UpdateGreetingDto } from '../greeting/dto/greeting.dto';
 import { Movies } from '../Types/types';
 
 @Controller()
