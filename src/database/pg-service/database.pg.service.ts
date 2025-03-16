@@ -1,5 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Pool } from 'pg';
+import { Movies } from 'src/types/types';
 
 @Injectable()
 export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
@@ -25,12 +26,8 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
     console.log('Database connection closed');
   }
 
-  async getMovies() {
-    console.log('getting from database');
-    const { rows } = await this.pool.query(
-      'SELECT * FROM "Movies Schema"."Movies"',
-    );
-    console.log('rows:', rows);
+  async getMovies(): Promise<Movies> {
+    const { rows } = await this.pool.query('SELECT * FROM movies');
     return rows;
   }
 }

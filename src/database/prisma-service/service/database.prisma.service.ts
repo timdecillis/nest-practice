@@ -1,16 +1,12 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
+import { Movies } from 'src/types/types';
 
 @Injectable()
 export class PrismaDatabaseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getMovies() {
-    console.log('prisma');
-    return await this.prisma.movies.findMany({
-      orderBy: {
-        ID: 'asc',
-      },
-    });
+  async getMovies(): Promise<Movies> {
+    return await this.prisma.movie.findMany({});
   }
 }

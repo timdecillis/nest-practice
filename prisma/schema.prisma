@@ -7,8 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Movies {
-  ID       Int    @id @default(autoincrement())
+model movie {
+  ID       Int    @id(map: "Movies_pkey") @default(autoincrement())
   Title    String @db.VarChar(255)
   Director String @db.VarChar(255)
 }
