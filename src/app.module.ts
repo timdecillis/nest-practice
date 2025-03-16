@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { GreetingModule } from './greeting/greeting.module';
-import { MovieModule } from './movies/movie.module';
+import { DatabaseService } from './database/database.service';
+import { DatabaseController } from './database/database.controller';
 
 @Module({
-  imports: [GreetingModule, MovieModule],
+  providers: [DatabaseService],
+  controllers: [DatabaseController],
 })
 export class AppModule {}

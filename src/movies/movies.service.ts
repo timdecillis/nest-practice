@@ -10,6 +10,7 @@ export class MovieService {
   getMovies(): Movies | string {
     const data = readDB();
     const movies = data.movies;
+    this.logger.log('fooooo');
     if (movies.length === 0) {
       return 'Nothing to see here, try adding a movie!';
     }
