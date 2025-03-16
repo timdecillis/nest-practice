@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { Movies } from '../types/types';
+import { Movies } from '../../types/types';
 import { readDB, writeToDB } from 'src/utils/utils';
 
 @Injectable()

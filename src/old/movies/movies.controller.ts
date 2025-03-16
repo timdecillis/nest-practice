@@ -8,9 +8,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { MovieService } from 'src/movies/movies.service';
+import { MovieService } from 'src/old/movies/movies.service';
 import { AddMovieDto } from './dto/movies.dto';
-import { Movies } from '../types/types';
+import { Movies } from '../../types/types';
 
 @Controller()
 export class MovieController {
