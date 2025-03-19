@@ -28,11 +28,7 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
 
   async getMovies(): Promise<Movies> {
     const { rows } = await this.pool.query('SELECT * FROM movies');
-    return rows.map((row) => ({
-      title: row.title,
-      director: row.director,
-      // Map other properties as needed
-    })) as Movies;
+    return rows as Movies;
   }
   async addMovie(movie: Movie): Promise<Movies> {
     await this.pool.query(
@@ -43,9 +39,7 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
     return rows as Movies;
   }
   async deleteMovie(movie: Movie): Promise<Movies> {
-    await this.pool.query(`DELETE FROM movies WHERE title ILIKE $1`, [
-      movie.title,
-    ]);
+    await this.pool.query(`DELETE FROM movies WHERE id = $1`, [movie.id]);
     const { rows } = await this.pool.query('SELECT * FROM movies');
     return rows as Movies;
   }

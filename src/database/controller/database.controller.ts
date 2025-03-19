@@ -17,6 +17,6 @@ export class DatabaseController {
   }
   @Delete()
   async deleteMovie(@Body() data) {
-    return await this.databaseService.deleteMovie(data);
+    return await this.databaseService.deleteMovieById(data);
   }
 }
