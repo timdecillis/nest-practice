@@ -7,6 +7,6 @@ export class PrismaDatabaseService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getMovies(): Promise<Movies> {
-    return await this.prisma.movie.findMany({});
+    return await this.prisma.movies.findMany({});
   }
 }

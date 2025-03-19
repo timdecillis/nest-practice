@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Pool } from 'pg';
-import { Movies } from 'src/types/types';
+import { Movie, Movies } from 'src/types/types';
 
 @Injectable()
 export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
@@ -28,6 +28,25 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
 
   async getMovies(): Promise<Movies> {
     const { rows } = await this.pool.query('SELECT * FROM movies');
-    return rows;
+    return rows.map((row) => ({
+      title: row.title,
+      director: row.director,
+      // Map other properties as needed
+    })) as Movies;
+  }
+  async addMovie(movie: Movie): Promise<Movies> {
+    await this.pool.query(
+      `INSERT INTO movies (title, director) VALUES ($1, $2)`,
+      [movie.title, movie.director],
+    );
+    const { rows } = await this.pool.query('SELECT * FROM movies');
+    return rows as Movies;
+  }
+  async deleteMovie(movie: Movie): Promise<Movies> {
+    await this.pool.query(`DELETE FROM movies WHERE title ILIKE $1`, [
+      movie.title,
+    ]);
+    const { rows } = await this.pool.query('SELECT * FROM movies');
+    return rows as Movies;
   }
 }

@@ -1,7 +1,7 @@
-export type Movie = {
-  ID: number;
-  Title: string;
-  Director: string;
-};
+export interface Movie {
+  id: number;
+  title: string;
+  director: string;
+}
 
 export type Movies = Movie[];
