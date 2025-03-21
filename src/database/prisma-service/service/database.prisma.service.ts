@@ -6,24 +6,24 @@ import { Movie, Movies } from 'src/types/types';
 export class PrismaDatabaseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getMovies(): Promise<Movies> {
-    return await this.prisma.movies.findMany({});
+  async getUsers() {
+    return await this.prisma.users.findMany({});
   }
-  async addMovie(movie: Movie): Promise<Movies> {
-    await this.prisma.movies.create({
-      data: {
-        title: movie.title,
-        director: movie.director,
-      },
-    });
-    return await this.prisma.movies.findMany({});
-  }
-  async deleteMovieById(movie: Movie): Promise<Movies> {
-    await this.prisma.movies.delete({
-      where: {
-        id: movie.id,
-      },
-    });
-    return await this.prisma.movies.findMany({});
-  }
+  // async addMovie(movie: Movie): Promise<Movies> {
+  //   await this.prisma.users.create({
+  //     data: {
+  //       title: movie.title,
+  //       director: movie.director,
+  //     },
+  //   });
+  //   return await this.prisma.users.findMany({});
+  // }
+  // async deleteMovieById(movie: Movie): Promise<Movies> {
+  //   await this.prisma.users.delete({
+  //     where: {
+  //       id: movie.id,
+  //     },
+  //   });
+  //   return await this.prisma.users.findMany({});
+  // }
 }
