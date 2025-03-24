@@ -8,11 +8,11 @@ datasource db {
 }
 
 model users {
-  id             Int     @id(map: "Movies_pkey") @default(autoincrement())
-  firstName      String  @db.VarChar(50)
-  lastName       String  @db.VarChar(50)
-  email          String? @db.VarChar(255)
-  jobTitle       String? @db.VarChar(100)
-  vehicle        String? @db.VarChar(100)
-  favoriteAnimal String? @db.VarChar(50)
+  id             Int    @id(map: "Movies_pkey") @default(autoincrement())
+  firstName      String @db.VarChar(50)
+  lastName       String @db.VarChar(50)
+  email          String @db.VarChar(255)
+  jobTitle       String @db.VarChar(100)
+  vehicle        String @db.VarChar(100)
+  favoriteAnimal String @db.VarChar(50)
 }

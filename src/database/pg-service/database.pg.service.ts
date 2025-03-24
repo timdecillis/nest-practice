@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Pool } from 'pg';
-import { Movie, Movies } from 'src/types/types';
+import { User, Users } from 'src/types/types';
 
 @Injectable()
 export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
@@ -26,21 +26,23 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
     console.log('Database connection closed');
   }
 
-  async getMovies(): Promise<Movies> {
-    const { rows } = await this.pool.query('SELECT * FROM movies');
-    return rows as Movies;
+  async getUsers(): Promise<Users> {
+    const { rows } = await this.pool.query('SELECT * FROM users');
+    return rows as Users;
   }
-  async addMovie(movie: Movie): Promise<Movies> {
+  async addUser(user: User): Promise<Users> {
+    const { firstName, lastName, email, jobTitle, vehicle, favoriteAnimal } =
+      user;
     await this.pool.query(
-      `INSERT INTO movies (title, director) VALUES ($1, $2)`,
-      [movie.title, movie.director],
+      `INSERT INTO users ("firstName", "lastName", "email", "jobTitle", "vehicle", "favoriteAnimal") VALUES ($1, $2, $3, $4, $5, $6)`,
+      [firstName, lastName, email, jobTitle, vehicle, favoriteAnimal],
     );
-    const { rows } = await this.pool.query('SELECT * FROM movies');
-    return rows as Movies;
+    const { rows } = await this.pool.query('SELECT * FROM users');
+    return rows as Users;
   }
-  async deleteMovie(movie: Movie): Promise<Movies> {
-    await this.pool.query(`DELETE FROM movies WHERE id = $1`, [movie.id]);
-    const { rows } = await this.pool.query('SELECT * FROM movies');
-    return rows as Movies;
+  async deleteUserById(user: User): Promise<Users> {
+    await this.pool.query(`DELETE FROM users WHERE id = $1`, [user.id]);
+    const { rows } = await this.pool.query('SELECT * FROM users');
+    return rows as Users;
   }
 }

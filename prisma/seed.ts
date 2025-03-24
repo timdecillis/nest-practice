@@ -12,7 +12,7 @@ async function seed() {
 
   console.log('Seeding database with new data...');
 
-  const users = Array.from({ length: 10 }, () => {
+  const users = Array.from({ length: 100 }, () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     return {

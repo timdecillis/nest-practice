@@ -1,22 +1,22 @@
 import { Body, Controller, Delete, Get, Inject, Post } from '@nestjs/common';
-import { Movies } from 'src/types/types';
+import { Users } from 'src/types/types';
 
-@Controller('movies')
+@Controller('users')
 export class DatabaseController {
   constructor(
     @Inject('DatabaseService') private readonly databaseService: any,
   ) {}
 
   @Get()
-  async getMovies(): Promise<Movies> {
+  async getUsers(): Promise<Users> {
     return await this.databaseService.getUsers();
   }
-  // @Post()
-  // async addMovie(@Body() data): Promise<Movies> {
-  //   return await this.databaseService.addMovie(data);
-  // }
-  // @Delete()
-  // async deleteMovie(@Body() data) {
-  //   return await this.databaseService.deleteMovieById(data);
-  // }
+  @Post()
+  async addUser(@Body() data): Promise<Users> {
+    return await this.databaseService.addUser(data);
+  }
+  @Delete()
+  async deleteUser(@Body() data): Promise<Users> {
+    return await this.databaseService.deleteUserById(data);
+  }
 }

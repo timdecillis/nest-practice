@@ -1,18 +1,11 @@
-export interface Movie {
-  id: number;
-  title: string;
-  director: string;
-}
-
-export type Movies = Movie[];
-
 export interface User {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
+  jobTitle: string;
   vehicle: string;
   favoriteAnimal: string;
 }
 
-export type Users = Movie[];
+export type Users = User[];
