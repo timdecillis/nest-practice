@@ -7,12 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id             Int    @id(map: "Movies_pkey") @default(autoincrement())
-  firstName      String @db.VarChar(50)
-  lastName       String @db.VarChar(50)
-  email          String @db.VarChar(255)
-  jobTitle       String @db.VarChar(100)
-  vehicle        String @db.VarChar(100)
-  favoriteAnimal String @db.VarChar(50)
+model animals {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(50)
+  price       Decimal?      @db.Decimal(10, 2)
+  order_items order_items[]
+}
+
+model customers {
+  id                                   Int      @id(map: "users_pkey") @default(autoincrement())
+  first_name                           String   @db.VarChar(50)
+  last_name                            String   @db.VarChar(50)
+  email                                String?  @db.VarChar(255)
+  orders                               Int?
+  orders_customers_ordersToorders      orders?  @relation("customers_ordersToorders", fields: [orders], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orders_orders_customer_idTocustomers orders[] @relation("orders_customer_idTocustomers")
+}
+
+model orders {
+  id                                      Int           @id @default(autoincrement())
+  total                                   Decimal?      @db.Decimal(10, 2)
+  customer_id                             Int?
+  customers_customers_ordersToorders      customers[]   @relation("customers_ordersToorders")
+  order_items                             order_items[]
+  customers_orders_customer_idTocustomers customers?    @relation("orders_customer_idTocustomers", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model order_items {
+  animal_id Int
+  quantity  Int
+  order_id  Int
+  animals   animals @relation(fields: [animal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orders    orders  @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([order_id, animal_id])
 }

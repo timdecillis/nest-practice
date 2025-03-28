@@ -4,10 +4,19 @@ import { PgDatabaseService } from './database/pg-service/database.pg.service';
 import { PrismaDatabaseService } from './database/prisma-service/service/database.prisma.service';
 import { DatabaseController } from './database/controller/database.controller';
 import * as dotenv from 'dotenv';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 dotenv.config();
 
-@Module({})
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../', 'public'),
+      serveRoot: '/',
+    }),
+  ],
+})
 export class AppModule {
   static register(): DynamicModule {
     const isUsingPrisma = process.env.DB_CLIENT === 'prisma';

@@ -27,7 +27,7 @@ export class PgDatabaseService implements OnModuleInit, OnModuleDestroy {
   }
 
   async getUsers(): Promise<Users> {
-    const { rows } = await this.pool.query('SELECT * FROM users');
+    const { rows } = await this.pool.query('SELECT * FROM users LIMIT 100');
     return rows as Users;
   }
   async addUser(user: User): Promise<Users> {
