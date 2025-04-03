@@ -5,8 +5,12 @@ const prisma = new PrismaClient();
 
 async function seed() {
   console.log('Deleting existing data...');
-  await prisma.$transaction([prisma.animals.deleteMany()]);
-  await prisma.$transaction([prisma.customers.deleteMany()]);
+  await prisma.$transaction([
+    prisma.order_items.deleteMany(),
+    prisma.orders.deleteMany(),
+    prisma.animals.deleteMany(),
+    prisma.customers.deleteMany(),
+  ]);
 
   console.log('Resetting auto-increment sequence...');
   await prisma.$executeRaw`SELECT setval('users_id_seq', 1, false);`;
@@ -18,14 +22,16 @@ async function seed() {
   const uniqueAnimals = new Set<string>();
 
   const animals = Array.from({ length: 44 }, () => {
-    let name;
+    let name: string;
     do {
       name = faker.animal.type();
     } while (uniqueAnimals.has(name));
     uniqueAnimals.add(name);
-    const price = parseFloat(faker.commerce.price({ min: 60, max: 200 }));
+    const price: number = parseFloat(
+      faker.commerce.price({ min: 60, max: 200 }),
+    );
     return {
-      name,
+      name: name,
       price,
     };
   });
@@ -55,7 +61,7 @@ async function seed() {
   const customerRecords = await prisma.customers.findMany();
 
   console.log('Seeding orders...');
-  let orders: Array<{ customer_id: number }> = [];
+  const orders: Array<{ customer_id: number }> = [];
 
   for (const customer of customerRecords) {
     orders.push({
@@ -75,14 +81,14 @@ async function seed() {
   const orderRecords = await prisma.orders.findMany();
 
   console.log('Seeding order_items...');
-  let orderItems: Array<{
+  const orderItems: Array<{
     order_id: number;
     animal_id: number;
     quantity: number;
   }> = [];
 
   for (const order of orderRecords) {
-    const orderAnimalCount = faker.number.int({ min: 1, max: 5 }); // 1-5 animals per order
+    const orderAnimalCount = faker.number.int({ min: 1, max: 5 });
     const selectedAnimals = faker.helpers.arrayElements(
       animalRecords,
       orderAnimalCount,
@@ -92,7 +98,7 @@ async function seed() {
       orderItems.push({
         order_id: order.id,
         animal_id: animal.id,
-        quantity: faker.number.int({ min: 1, max: 3 }), // 1-3 of each animal
+        quantity: faker.number.int({ min: 1, max: 3 }),
       });
     }
   }
