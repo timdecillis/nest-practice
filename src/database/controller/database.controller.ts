@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Inject, Post } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { Users } from 'src/types/types';
+import { PrismaDatabaseService } from '../prisma-service/service/database.prisma.service';
 
 @Controller()
 export class DatabaseController {
   constructor(
-    @Inject('DatabaseService') private readonly databaseService: any,
+    @Inject('DatabaseService')
+    private readonly databaseService: PrismaDatabaseService,
   ) {}
   @Get()
   getApp() {
@@ -14,13 +16,5 @@ export class DatabaseController {
   @Get('customers')
   async getCustomers(): Promise<Users> {
     return await this.databaseService.getCustomers();
-  }
-  @Post()
-  async addUser(@Body() data): Promise<Users> {
-    return await this.databaseService.addUser(data);
-  }
-  @Delete()
-  async deleteUser(@Body() data): Promise<Users> {
-    return await this.databaseService.deleteUserById(data);
   }
 }
