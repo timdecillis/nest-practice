@@ -10,7 +10,7 @@ datasource db {
 model animals {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(50)
-  price       Decimal?      @db.Decimal(10, 2)
+  price       Decimal       @db.Decimal(10, 2)
   order_items order_items[]
 }
 
@@ -19,18 +19,15 @@ model customers {
   first_name                           String   @db.VarChar(50)
   last_name                            String   @db.VarChar(50)
   email                                String?  @db.VarChar(255)
-  orders                               Int?
-  orders_customers_ordersToorders      orders?  @relation("customers_ordersToorders", fields: [orders], references: [id], onDelete: NoAction, onUpdate: NoAction)
   orders_orders_customer_idTocustomers orders[] @relation("orders_customer_idTocustomers")
 }
 
 model orders {
   id                                      Int           @id @default(autoincrement())
-  total                                   Decimal?      @db.Decimal(10, 2)
-  customer_id                             Int?
-  customers_customers_ordersToorders      customers[]   @relation("customers_ordersToorders")
+  total                                   Decimal       @db.Decimal(10, 2)
+  customer_id                             Int
   order_items                             order_items[]
-  customers_orders_customer_idTocustomers customers?    @relation("orders_customer_idTocustomers", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customers_orders_customer_idTocustomers customers     @relation("orders_customer_idTocustomers", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model order_items {

@@ -1,5 +1,5 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { Users } from 'src/types/types';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { Order, User } from 'src/types/types';
 import { PrismaDatabaseService } from '../prisma-service/service/database.prisma.service';
 
 @Controller()
@@ -14,7 +14,11 @@ export class DatabaseController {
   }
 
   @Get('customers')
-  async getCustomers(): Promise<Users> {
+  async getCustomers(): Promise<User[]> {
     return await this.databaseService.getCustomers();
+  }
+  @Get('orders')
+  async getOrders(@Query('customer_id') customer_id: string): Promise<Order[]> {
+    return await this.databaseService.getOrders(parseInt(customer_id));
   }
 }

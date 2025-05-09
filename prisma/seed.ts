@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { animals, customers, PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
@@ -15,6 +15,7 @@ async function seed() {
   console.log('Resetting auto-increment sequence...');
   await prisma.$executeRaw`SELECT setval('users_id_seq', 1, false);`;
   await prisma.$executeRaw`SELECT setval('animals_id_seq', 1, false);`;
+  await prisma.$executeRaw`SELECT setval('orders_id_seq', 1, false);`;
 
   console.log('Seeding database with new data...');
 
@@ -38,10 +39,10 @@ async function seed() {
   await prisma.animals.createMany({
     data: animals,
   });
-  const animalRecords = await prisma.animals.findMany();
+  const animalRecords: animals[] = await prisma.animals.findMany();
 
   console.log('Seeding customers...');
-  const customers = Array.from({ length: 300 }, () => {
+  const customers = Array.from({ length: 500 }, () => {
     const first_name = faker.person.firstName();
     const last_name = faker.person.lastName();
     return {
@@ -61,18 +62,27 @@ async function seed() {
   const customerRecords = await prisma.customers.findMany();
 
   console.log('Seeding orders...');
-  const orders: Array<{ customer_id: number }> = [];
+  const orders: Array<{ customer_id: number; total: number }> = [];
 
   for (const customer of customerRecords) {
+    const total: number = parseFloat(
+      faker.commerce.price({ min: 60, max: 1000 }),
+    );
     orders.push({
       customer_id: customer.id,
+      total,
     });
   }
 
-  while (orders.length < 500) {
-    const randomCustomer = faker.helpers.arrayElement(customerRecords);
+  while (orders.length < 1000) {
+    const total: number = parseFloat(
+      faker.commerce.price({ min: 60, max: 1000 }),
+    );
+    const randomCustomer: customers =
+      faker.helpers.arrayElement(customerRecords);
     orders.push({
       customer_id: randomCustomer.id,
+      total,
     });
   }
 
