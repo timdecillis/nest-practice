@@ -28,6 +28,8 @@ model orders {
   customer_id                             Int
   order_items                             order_items[]
   customers_orders_customer_idTocustomers customers     @relation("orders_customer_idTocustomers", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([customer_id], map: "customer_id_index")
 }
 
 model order_items {

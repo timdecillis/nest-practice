@@ -1,23 +1,25 @@
-# Use the official Node.js image
-FROM node:18
+FROM node:20-alpine AS builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy only package definitions first (for caching)
 COPY package.json yarn.lock ./
 
-# Install dependencies
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
-# Copy the full source code
 COPY . .
 
-# Build the NestJS app (compiles TypeScript)
+RUN npx prisma generate
+
 RUN yarn build
 
-# Expose the app's port
-EXPOSE 4000
+FROM node:20-alpine
 
-# Start the app using Nest's default script
-CMD ["yarn", "start"]
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 4000
+CMD ["node", "dist/src/main"]
+
